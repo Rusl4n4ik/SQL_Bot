@@ -7,4 +7,7 @@ class PasswordFSM(StatesGroup):
 
 class Btn(StatesGroup):
     text = State()
+
+
+class BtnL(StatesGroup):
     link = State()
