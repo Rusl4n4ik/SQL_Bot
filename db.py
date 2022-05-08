@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine, MetaData, Table, Integer, String, \
-    Column, DateTime, ForeignKey, Numeric
+Column, DateTime, ForeignKey, Numeric
 from sqlalchemy.ext.declarative import declarative_base
-from datetime import datetime
 from sqlalchemy.orm import sessionmaker, relationship
 
 DATABASE_NAME = 'bot.sqlite'
@@ -74,14 +73,17 @@ def add_admin(id):
     session.close()
 
 
-def add_button(btn_text, btn_link):
+def add_button(text, link):
     session = Session()
-    btn = Button(button_text=btn_text)
-    btn_link = Button(button_link=btn_link)
-    session.add(btn)
-    session.add(btn_link)
+    add_btn = Button(button_text=text, button_link=link)
+    session.add(add_btn)
     session.commit()
     session.close()
+
+
+def get_buttons():
+    session = Session()
+    return session.query(Button).all()
 
 
 if __name__ == '__main__':
