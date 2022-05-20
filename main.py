@@ -33,19 +33,19 @@ async def start_handler(message: types.Message):
     exist_user = check_existing(message.chat.id)
     if not exist_user:
         add_user(message.chat.id, message.from_user.first_name, message.from_user.username)
-        await message.answer('Добро пожаловать ' + fmt.hunderline(message.from_user.username) + ' 👀🔥\n' +
-                         'Этот бот содержит кнопки с годными ссылками на ютуб', reply_markup=start_menu)
+        await message.answer('Hi ' + fmt.hunderline(message.from_user.username) + ' 👀🔥\n' +
+                         'This bot contains buttons with valid links', reply_markup=start_menu)
     else:
-        await message.answer('Добро пожаловать ' + fmt.hunderline(message.from_user.username) + ' 👀🔥\n' +
-                         'Этот бот содержит кнопки с годными ссылками на ютуб', reply_markup=start_menu)
+        await message.answer('Hi ' + fmt.hunderline(message.from_user.username) + ' 👀🔥\n' +
+                         'This bot contains buttons with valid links', reply_markup=start_menu)
 
 
 @dp.message_handler(commands=['admin'])
 async def start_handler(message: types.Message):
     exist_admin = check_existing_admin(message.chat.id)
-    await message.answer('Введите пароль')
+    await message.answer('Enter password')
     if not exist_admin:
-        await message.answer('Введите пароль')
+        await message.answer('Enter password')
     await PasswordFSM.password.set()
 
 
@@ -55,16 +55,16 @@ async def password_validation(message: types.Message, state: FSMContext):
     valid = check(password)
     if valid:
         add_admin(message.chat.id)
-        await message.answer('Вы перешли в админ панель', reply_markup=admin_menu)
+        await message.answer('You have gone to the admin panel', reply_markup=admin_menu)
         await state.finish()
     else:
-        await message.answer('Попробуйте еще раз')
+        await message.answer('Try again')
 
 
 @dp.callback_query_handler(text='add_button')
 async def add_btnnnnn(callback: types.CallbackQuery):
     await callback.answer()
-    await callback.message.answer('Введите название кнопки')
+    await callback.message.answer('Enter button name')
     await Btn.text.set()
 
 
@@ -74,7 +74,7 @@ async def add_btnnn(message: types.Message, state: FSMContext):
     tmp[message.chat.id] = {}
     tmp[message.chat.id]['text'] = text
     await state.finish()
-    await message.answer('Введите ссылку кнопки')
+    await message.answer('Enter button link')
     await BtnL.link.set()
     print(text)
 
@@ -89,17 +89,17 @@ async def add_btnn(message: types.Message, state: FSMContext):
     if urls[0]:
         tmp[message.chat.id]['link'] = urls[0]
         print(link)
-        await message.answer('Спасибо за данные', reply_markup=keyboard_m)
+        await message.answer('Thanks for the data', reply_markup=keyboard_m)
         await state.finish()
     else:
-        await message.answer('Тут нет ссылки')
+        await message.answer('There is no link here')
 
 
-@dp.message_handler(Text(equals="Добавить кнопку"))
+@dp.message_handler(Text(equals="Add button"))
 async def add_btn(message: types.Message):
     print(tmp)
     add_button(tmp[message.chat.id]['text'], tmp[message.chat.id]['link'])
-    await message.answer('Сейчас добавим кнопку!', reply_markup=types.ReplyKeyboardRemove())
+    await message.answer('Now lets add a button!', reply_markup=types.ReplyKeyboardRemove())
 
 
 if __name__ == '__main__':
