@@ -34,10 +34,10 @@ async def start_handler(message: types.Message):
     if not exist_user:
         add_user(message.chat.id, message.from_user.first_name, message.from_user.username)
         await message.answer('Hi ' + fmt.hunderline(message.from_user.username) + ' 👀🔥\n' +
-                         'This bot contains buttons with valid links', reply_markup=start_menu)
+                         'This bot contains buttons with links', reply_markup=start_menu)
     else:
         await message.answer('Hi ' + fmt.hunderline(message.from_user.username) + ' 👀🔥\n' +
-                         'This bot contains buttons with valid links', reply_markup=start_menu)
+                         'This bot contains buttons with links', reply_markup=start_menu)
 
 
 @dp.message_handler(commands=['admin'])
