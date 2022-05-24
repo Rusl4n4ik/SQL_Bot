@@ -95,7 +95,7 @@ async def add_btnn(message: types.Message, state: FSMContext):
         await message.answer('There is no link here')
 
 
-@dp.message_handler(Text(equals="Add button"))
+@dp.message_handler(Text(equals="Add button ➕"))
 async def add_btn(message: types.Message):
     print(tmp)
     add_button(tmp[message.chat.id]['text'], tmp[message.chat.id]['link'])
